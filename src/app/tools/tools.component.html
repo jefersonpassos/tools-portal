@@ -1,0 +1,20 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="uk-card uk-card-default uk-card-body">
+  <table class="uk-table uk-table-divider  uk-table-striped uk-table-justify uk-table-middle">
+    <caption></caption>
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th class='uk-table-expand'>Descrição</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor='let tool of toolsList'>
+            <td>{{tool.title}}</td>
+            <td>{{tool.description}}</td>
+            <td><a href="{{tool.url}}"><button class="uk-button uk-button-primary">Abrir</button></a></td>
+        </tr>
+    </tbody>
+  </table>
+</div>
