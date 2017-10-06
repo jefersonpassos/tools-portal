@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ToolsModule } from './tools/tools.module';
+import { NavbarModule } from './navbar/navbar.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { ToolsModule } from './tools/tools.module';
   ],
   imports: [
     BrowserModule,
-    ToolsModule
+    ToolsModule,
+    NavbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

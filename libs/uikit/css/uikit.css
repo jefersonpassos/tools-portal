@@ -1580,7 +1580,7 @@ select.uk-form-width-xsmall {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2224%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2016%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolygon%20fill%3D%22%23999%22%20points%3D%2212%201%209%206%2015%206%22%3E%3C%2Fpolygon%3E%0A%20%20%20%20%3Cpolygon%20fill%3D%22%23999%22%20points%3D%2212%2013%209%208%2015%208%22%3E%3C%2Fpolygon%3E%0A%3C%2Fsvg%3E%0A");
 }
 /* Radio and checkbox
- * Note: Only works in Chrome, Safari, Opera and Edge
+ * Note: Does not work in IE11
  ========================================================================== */
 /*
  * 1. Style
@@ -1603,6 +1603,7 @@ select.uk-form-width-xsmall {
   vertical-align: middle;
   /* 4 */
   -webkit-appearance: none;
+  -moz-appearance: none;
   /* 5 */
   background-color: transparent;
   /* 6 */
@@ -2217,9 +2218,6 @@ select.uk-form-width-xsmall {
 .uk-section-secondary {
   background: #222;
 }
-/*
- * Indicate that an image or video is used as background
- */
 /* Overlap modifier
  ========================================================================== */
 /*
@@ -2296,7 +2294,7 @@ select.uk-form-width-xsmall {
  ========================================================================== */
 /*
  * 1. Allow cells to wrap into the next line
- * 2. Reset lists
+ * 2. Reset list
  */
 .uk-grid {
   display: -ms-flexbox;
@@ -3946,7 +3944,7 @@ ul.uk-nav-sub {
 /* Nav
  ========================================================================== */
 /*
- * 1. Reset lists
+ * 1. Reset list
  */
 .uk-navbar-nav {
   display: -ms-flexbox;
@@ -4242,7 +4240,7 @@ ul.uk-nav-sub {
 /*
  * 1. Allow items to wrap into the next line
  * 2. Gutter
- * 3. Reset lists
+ * 3. Reset list
  */
 .uk-subnav {
   display: -ms-flexbox;
@@ -4363,7 +4361,7 @@ ul.uk-nav-sub {
  ========================================================================== */
 /*
  * 1. Allow items to wrap into the next line
- * 2. Reset lists
+ * 2. Reset list
  */
 .uk-breadcrumb {
   display: -ms-flexbox;
@@ -4419,7 +4417,7 @@ ul.uk-nav-sub {
 /*
  * 1. Allow items to wrap into the next line
  * 2. Gutter
- * 3. Reset lists
+ * 3. Reset list
  */
 .uk-pagination {
   display: -ms-flexbox;
@@ -4484,7 +4482,7 @@ ul.uk-nav-sub {
 /*
  * 1. Allow items to wrap into the next line
  * 2. Gutter
- * 3. Reset lists
+ * 3. Reset list
  */
 .uk-tab {
   display: -ms-flexbox;
@@ -4606,7 +4604,7 @@ ul.uk-nav-sub {
   border-bottom: none;
 }
 .uk-tab-left > * > a {
-  text-align: right;
+  text-align: left;
   border-right: 1px solid transparent;
   border-bottom: none;
 }
@@ -4660,7 +4658,7 @@ ul.uk-nav-sub {
  ========================================================================== */
 /*
  * 1. Allow items to wrap into the next line
- * 2. Reset lists
+ * 2. Reset list
  * 3. Gutter
  */
 .uk-dotnav {
@@ -4995,8 +4993,10 @@ ul.uk-nav-sub {
 /*
  * 1. Create position context for spinner and close button
  * 2. Dimensions
- * 3. Style
- * 4. Slide-in transition
+ * 3. Fix `max-width: 100%` not working in combination with flex and responsive images in IE11
+ *    `!important` needed to overwrite `uk-width-auto`. See `#modal-media-image` in tests
+ * 4. Style
+ * 5. Slide-in transition
  */
 .uk-modal-dialog {
   /* 1 */
@@ -5005,10 +5005,11 @@ ul.uk-nav-sub {
   box-sizing: border-box;
   margin: 0 auto;
   width: 600px;
-  max-width: 100%;
   /* 3 */
-  background: #fff;
+  max-width: calc(100% - 0.01px) !important;
   /* 4 */
+  background: #fff;
+  /* 5 */
   opacity: 0;
   -webkit-transform: translateY(-100px);
   transform: translateY(-100px);
@@ -5122,16 +5123,27 @@ ul.uk-nav-sub {
  */
 /*
  * Outside
+ * 1. Prevent scrollbar on small devices
  */
 .uk-modal-close-outside {
   top: 0;
-  right: 0;
-  -webkit-transform: translate(100%, -100%);
-  transform: translate(100%, -100%);
+  /* 1 */
+  right: -5px;
+  -webkit-transform: translate(0, -100%);
+  transform: translate(0, -100%);
   color: #ffffff;
 }
 .uk-modal-close-outside:hover {
   color: #fff;
+}
+/* Tablet landscape and bigger */
+@media (min-width: 960px) {
+  /* 1 */
+  .uk-modal-close-outside {
+    right: 0;
+    -webkit-transform: translate(100%, -100%);
+    transform: translate(100%, -100%);
+  }
 }
 /*
  * Full
@@ -5535,7 +5547,7 @@ ul.uk-nav-sub {
    Component: Switcher
  ========================================================================== */
 /*
- * Reset lists
+ * Reset list
  */
 .uk-switcher {
   margin: 0;
@@ -5561,7 +5573,7 @@ ul.uk-nav-sub {
  ========================================================================== */
 /*
  * 1. Allow items to wrap into the next line
- * 2. Reset lists
+ * 2. Reset list
  * 3. Gutter
  */
 .uk-iconnav {
@@ -7665,6 +7677,813 @@ td.uk-text-break {
 .uk-background-blend-luminosity {
   background-blend-mode: luminosity;
 }
+/* =========================================
+    Functions
+==============================
+*/
+/* ========================================================================
+   Component: Color
+ ========================================================================== */
+/*
+    Text-color
+===========================================================================
+*/
+.uk-color-text-dark {
+  color: #0a0a0a;
+}
+.uk-color-text-light {
+  color: rgba(255, 255, 255, 0.87);
+}
+.uk-color-text-red {
+  color: #f44336;
+}
+.uk-color-text-pink {
+  color: #e91e63;
+}
+.uk-color-text-purple {
+  color: #9c27b0;
+}
+.uk-color-text-deep-purple {
+  color: #673ab7;
+}
+.uk-color-text-indigo {
+  color: #3f51b5;
+}
+.uk-color-text-blue {
+  color: #1565c0;
+}
+.uk-color-text-light-blue {
+  color: #03a9f4;
+}
+.uk-color-text-cyan {
+  color: #00bcd4;
+}
+.uk-color-text-teal {
+  color: #00bcd4;
+}
+.uk-color-text-green {
+  color: #4caf50;
+}
+.uk-color-text-light-green {
+  color: #8bc34a;
+}
+.uk-color-text-lime {
+  color: #cddc39;
+}
+.uk-color-text-orange {
+  color: #ff9800;
+}
+.uk-color-text-deep-orange {
+  color: #ff5722;
+}
+.uk-color-text-brown {
+  color: #795548;
+}
+.uk-color-text-blue-grey {
+  color: #607d8b;
+}
+.uk-color-text-grey {
+  color: #757575;
+}
+/*
+    border color
+=============================================
+*/
+.uk-color-border-red {
+  border-color: #f44336;
+}
+.uk-color-border-pink {
+  border-color: #e91e63;
+}
+.uk-color-border-purple {
+  border-color: #9c27b0;
+}
+.uk-color-border-deep-purple {
+  border-color: #673ab7;
+}
+.uk-color-border-indigo {
+  border-color: #3f51b5;
+}
+.uk-color-border-blue {
+  border-color: #1565c0;
+}
+.uk-color-border-light-blue {
+  border-color: #03a9f4;
+}
+.uk-color-border-cyan {
+  border-color: #00bcd4;
+}
+.uk-color-border-teal {
+  border-color: #009688;
+}
+.uk-color-border-green {
+  border-color: #4caf50;
+}
+.uk-color-border-light-green {
+  border-color: #8bc34a;
+}
+.uk-color-border-lime {
+  border-color: #cddc39;
+}
+.uk-color-border-orange {
+  border-color: #ff9800;
+}
+.uk-color-border-deep-orange {
+  border-color: #ff5722;
+}
+.uk-color-border-brown {
+  border-color: #795548;
+}
+.uk-color-border-grey {
+  border-color: #757575;
+}
+.uk-color-border-blue-grey {
+  border-color: #607d8b;
+}
+.uk-color-red,
+.uk-color-pink,
+.uk-color-purple,
+.uk-color-deep-purple,
+.uk-color-indigo,
+.uk-color-blue,
+.uk-color-light-blue,
+.uk-color-cyan,
+.uk-color-teal,
+.uk-color-green,
+.uk-color-deep-orange,
+.uk-color-brown,
+.uk-color-blue-grey {
+  color: rgba(255, 255, 255, 0.87);
+}
+.uk-color-light-green,
+.uk-color-lime,
+.uk-color-orange,
+.uk-color-grey {
+  color: #0a0a0a;
+}
+.uk-color-red {
+  background-color: #f44336;
+}
+.uk-color-red-light-1 {
+  background-color: #f55a4e;
+}
+.uk-color-red-light-2 {
+  background-color: #f77066;
+}
+.uk-color-red-light-3 {
+  background-color: #f8877f;
+}
+.uk-color-red-light-4 {
+  background-color: #f99d97;
+}
+.uk-color-red-light-5 {
+  background-color: #fbb4af;
+}
+.uk-color-red-light-6 {
+  background-color: #fccbc7;
+}
+.uk-color-red-dark-1 {
+  background-color: #f32c1e;
+}
+.uk-color-red-dark-2 {
+  background-color: #ea1c0d;
+}
+.uk-color-red-dark-3 {
+  background-color: #d2190b;
+}
+.uk-color-red-dark-4 {
+  background-color: #ba160a;
+}
+.uk-color-red-dark-5 {
+  background-color: #a21309;
+}
+.uk-color-red-dark-6 {
+  background-color: #891008;
+}
+.uk-color-pink {
+  background-color: #e91e63;
+}
+.uk-color-pink-light-1 {
+  background-color: #eb3573;
+}
+.uk-color-pink-light-2 {
+  background-color: #ee4c83;
+}
+.uk-color-pink-light-3 {
+  background-color: #f06493;
+}
+.uk-color-pink-light-4 {
+  background-color: #f27ba3;
+}
+.uk-color-pink-light-5 {
+  background-color: #f492b4;
+}
+.uk-color-pink-light-6 {
+  background-color: #f7a9c4;
+}
+.uk-color-pink-dark-1 {
+  background-color: #d81557;
+}
+.uk-color-pink-dark-2 {
+  background-color: #c1134e;
+}
+.uk-color-pink-dark-3 {
+  background-color: #aa1145;
+}
+.uk-color-pink-dark-4 {
+  background-color: #930e3b;
+}
+.uk-color-pink-dark-5 {
+  background-color: #7b0c32;
+}
+.uk-color-pink-dark-6 {
+  background-color: #640a29;
+}
+.uk-color-purple {
+  background-color: #9c27b0;
+}
+.uk-color-purple-light-1 {
+  background-color: #af2cc5;
+}
+.uk-color-purple-light-2 {
+  background-color: #bc37d3;
+}
+.uk-color-purple-light-3 {
+  background-color: #c34cd7;
+}
+.uk-color-purple-light-4 {
+  background-color: #ca61dc;
+}
+.uk-color-purple-light-5 {
+  background-color: #d176e1;
+}
+.uk-color-purple-light-6 {
+  background-color: #d88be5;
+}
+.uk-color-purple-dark-1 {
+  background-color: #89229b;
+}
+.uk-color-purple-dark-2 {
+  background-color: #771e86;
+}
+.uk-color-purple-dark-3 {
+  background-color: #641971;
+}
+.uk-color-purple-dark-4 {
+  background-color: #52145d;
+}
+.uk-color-purple-dark-5 {
+  background-color: #3f1048;
+}
+.uk-color-purple-dark-6 {
+  background-color: #2d0b33;
+}
+.uk-color-deep-purple {
+  background-color: #673ab7;
+}
+.uk-color-deep-purple-light-1 {
+  background-color: #7446c4;
+}
+.uk-color-deep-purple-light-2 {
+  background-color: #8259cb;
+}
+.uk-color-deep-purple-light-3 {
+  background-color: #916dd1;
+}
+.uk-color-deep-purple-light-4 {
+  background-color: #9f80d7;
+}
+.uk-color-deep-purple-light-5 {
+  background-color: #ae94dd;
+}
+.uk-color-deep-purple-light-6 {
+  background-color: #bda7e3;
+}
+.uk-color-deep-purple-dark-1 {
+  background-color: #5c34a4;
+}
+.uk-color-deep-purple-dark-2 {
+  background-color: #512e90;
+}
+.uk-color-deep-purple-dark-3 {
+  background-color: #46287d;
+}
+.uk-color-deep-purple-dark-4 {
+  background-color: #3b216a;
+}
+.uk-color-deep-purple-dark-5 {
+  background-color: #311b56;
+}
+.uk-color-deep-purple-dark-6 {
+  background-color: #261543;
+}
+.uk-color-indigo {
+  background-color: #3f51b5;
+}
+.uk-color-indigo-light-1 {
+  background-color: #4d5ec1;
+}
+.uk-color-indigo-light-2 {
+  background-color: #606fc7;
+}
+.uk-color-indigo-light-3 {
+  background-color: #7280ce;
+}
+.uk-color-indigo-light-4 {
+  background-color: #8591d5;
+}
+.uk-color-indigo-light-5 {
+  background-color: #98a2db;
+}
+.uk-color-indigo-light-6 {
+  background-color: #abb4e2;
+}
+.uk-color-indigo-dark-1 {
+  background-color: #3849a2;
+}
+.uk-color-indigo-dark-2 {
+  background-color: #32408f;
+}
+.uk-color-indigo-dark-3 {
+  background-color: #2b387c;
+}
+.uk-color-indigo-dark-4 {
+  background-color: #252f69;
+}
+.uk-color-indigo-dark-5 {
+  background-color: #1e2756;
+}
+.uk-color-indigo-dark-6 {
+  background-color: #171e44;
+}
+.uk-color-blue {
+  background-color: #1565c0;
+}
+.uk-color-blue-light-1 {
+  background-color: #1871d7;
+}
+.uk-color-blue-light-2 {
+  background-color: #217ee7;
+}
+.uk-color-blue-light-3 {
+  background-color: #388be9;
+}
+.uk-color-blue-light-4 {
+  background-color: #4f98ec;
+}
+.uk-color-blue-light-5 {
+  background-color: #66a6ee;
+}
+.uk-color-blue-light-6 {
+  background-color: #7db3f1;
+}
+.uk-color-blue-dark-1 {
+  background-color: #1259a9;
+}
+.uk-color-blue-dark-2 {
+  background-color: #104d92;
+}
+.uk-color-blue-dark-3 {
+  background-color: #0d417b;
+}
+.uk-color-blue-dark-4 {
+  background-color: #0b3564;
+}
+.uk-color-blue-dark-5 {
+  background-color: #08294d;
+}
+.uk-color-blue-dark-6 {
+  background-color: #061c36;
+}
+.uk-color-light-blue {
+  background-color: #03a9f4;
+}
+.uk-color-light-blue-light-1 {
+  background-color: #14b4fc;
+}
+.uk-color-light-blue-light-2 {
+  background-color: #2ebcfc;
+}
+.uk-color-light-blue-light-3 {
+  background-color: #47c4fd;
+}
+.uk-color-light-blue-light-4 {
+  background-color: #60ccfd;
+}
+.uk-color-light-blue-light-5 {
+  background-color: #79d4fd;
+}
+.uk-color-light-blue-light-6 {
+  background-color: #92dcfe;
+}
+.uk-color-light-blue-dark-1 {
+  background-color: #0398db;
+}
+.uk-color-light-blue-dark-2 {
+  background-color: #0286c2;
+}
+.uk-color-light-blue-dark-3 {
+  background-color: #0275a8;
+}
+.uk-color-light-blue-dark-4 {
+  background-color: #02638f;
+}
+.uk-color-light-blue-dark-5 {
+  background-color: #015276;
+}
+.uk-color-light-blue-dark-6 {
+  background-color: #01405d;
+}
+.uk-color-cyan {
+  background-color: #00bcd4;
+}
+.uk-color-cyan-light-1 {
+  background-color: #00d3ee;
+}
+.uk-color-cyan-light-2 {
+  background-color: #08e3ff;
+}
+.uk-color-cyan-light-3 {
+  background-color: #21e6ff;
+}
+.uk-color-cyan-light-4 {
+  background-color: #3be9ff;
+}
+.uk-color-cyan-light-5 {
+  background-color: #55ecff;
+}
+.uk-color-cyan-light-6 {
+  background-color: #6eefff;
+}
+.uk-color-cyan-dark-1 {
+  background-color: #00a5bb;
+}
+.uk-color-cyan-dark-2 {
+  background-color: #008fa1;
+}
+.uk-color-cyan-dark-3 {
+  background-color: #007888;
+}
+.uk-color-cyan-dark-4 {
+  background-color: #00626e;
+}
+.uk-color-cyan-dark-5 {
+  background-color: #004b55;
+}
+.uk-color-cyan-dark-6 {
+  background-color: #00343b;
+}
+.uk-color-teal {
+  background-color: #009688;
+}
+.uk-color-teal-light-1 {
+  background-color: #00b09f;
+}
+.uk-color-teal-light-2 {
+  background-color: #00c9b6;
+}
+.uk-color-teal-light-3 {
+  background-color: #00e3cd;
+}
+.uk-color-teal-light-4 {
+  background-color: #00fce4;
+}
+.uk-color-teal-light-5 {
+  background-color: #17ffe9;
+}
+.uk-color-teal-light-6 {
+  background-color: #30ffec;
+}
+.uk-color-teal-dark-1 {
+  background-color: #007d71;
+}
+.uk-color-teal-dark-2 {
+  background-color: #00635a;
+}
+.uk-color-teal-dark-3 {
+  background-color: #004a43;
+}
+.uk-color-teal-dark-4 {
+  background-color: #00302c;
+}
+.uk-color-teal-dark-5 {
+  background-color: #001714;
+}
+.uk-color-teal-dark-6 {
+  background-color: #000000;
+}
+.uk-color-green {
+  background-color: #4caf50;
+}
+.uk-color-green-light-1 {
+  background-color: #5cb860;
+}
+.uk-color-green-light-2 {
+  background-color: #6ec071;
+}
+.uk-color-green-light-3 {
+  background-color: #80c883;
+}
+.uk-color-green-light-4 {
+  background-color: #92cf94;
+}
+.uk-color-green-light-5 {
+  background-color: #a3d7a5;
+}
+.uk-color-green-light-6 {
+  background-color: #b5dfb7;
+}
+.uk-color-green-dark-1 {
+  background-color: #449d48;
+}
+.uk-color-green-dark-2 {
+  background-color: #3d8b40;
+}
+.uk-color-green-dark-3 {
+  background-color: #357a38;
+}
+.uk-color-green-dark-4 {
+  background-color: #2d682f;
+}
+.uk-color-green-dark-5 {
+  background-color: #255627;
+}
+.uk-color-green-dark-6 {
+  background-color: #1e441f;
+}
+.uk-color-light-green {
+  background-color: #8bc34a;
+}
+.uk-color-light-green-light-1 {
+  background-color: #97c95d;
+}
+.uk-color-light-green-light-2 {
+  background-color: #a4d070;
+}
+.uk-color-light-green-light-3 {
+  background-color: #b0d683;
+}
+.uk-color-light-green-light-4 {
+  background-color: #bcdc97;
+}
+.uk-color-light-green-light-5 {
+  background-color: #c8e3aa;
+}
+.uk-color-light-green-light-6 {
+  background-color: #d5e9bd;
+}
+.uk-color-light-green-dark-1 {
+  background-color: #7eb73d;
+}
+.uk-color-light-green-dark-2 {
+  background-color: #71a436;
+}
+.uk-color-light-green-dark-3 {
+  background-color: #649130;
+}
+.uk-color-light-green-dark-4 {
+  background-color: #577d2a;
+}
+.uk-color-light-green-dark-5 {
+  background-color: #496a23;
+}
+.uk-color-light-green-dark-6 {
+  background-color: #3c571d;
+}
+.uk-color-lime {
+  background-color: #cddc39;
+}
+.uk-color-lime-light-1 {
+  background-color: #d2e04f;
+}
+.uk-color-lime-light-2 {
+  background-color: #d8e464;
+}
+.uk-color-lime-light-3 {
+  background-color: #dde77a;
+}
+.uk-color-lime-light-4 {
+  background-color: #e3eb90;
+}
+.uk-color-lime-light-5 {
+  background-color: #e8efa5;
+}
+.uk-color-lime-light-6 {
+  background-color: #eef3bb;
+}
+.uk-color-lime-dark-1 {
+  background-color: #c6d626;
+}
+.uk-color-lime-dark-2 {
+  background-color: #b2c022;
+}
+.uk-color-lime-dark-3 {
+  background-color: #9daa1e;
+}
+.uk-color-lime-dark-4 {
+  background-color: #89951a;
+}
+.uk-color-lime-dark-5 {
+  background-color: #757f16;
+}
+.uk-color-lime-dark-6 {
+  background-color: #616913;
+}
+.uk-color-orange {
+  background-color: #ff9800;
+}
+.uk-color-orange-light-1 {
+  background-color: #ffa21a;
+}
+.uk-color-orange-light-2 {
+  background-color: #ffad33;
+}
+.uk-color-orange-light-3 {
+  background-color: #ffb74d;
+}
+.uk-color-orange-light-4 {
+  background-color: #ffc166;
+}
+.uk-color-orange-light-5 {
+  background-color: #ffcc80;
+}
+.uk-color-orange-light-6 {
+  background-color: #ffd699;
+}
+.uk-color-orange-dark-1 {
+  background-color: #e68900;
+}
+.uk-color-orange-dark-2 {
+  background-color: #cc7a00;
+}
+.uk-color-orange-dark-3 {
+  background-color: #b36a00;
+}
+.uk-color-orange-dark-4 {
+  background-color: #995b00;
+}
+.uk-color-orange-dark-5 {
+  background-color: #804c00;
+}
+.uk-color-orange-dark-6 {
+  background-color: #663d00;
+}
+.uk-color-deep-orange {
+  background-color: #ff5722;
+}
+.uk-color-deep-orange-light-1 {
+  background-color: #ff6a3c;
+}
+.uk-color-deep-orange-light-2 {
+  background-color: #ff7e55;
+}
+.uk-color-deep-orange-light-3 {
+  background-color: #ff916f;
+}
+.uk-color-deep-orange-light-4 {
+  background-color: #ffa588;
+}
+.uk-color-deep-orange-light-5 {
+  background-color: #ffb8a2;
+}
+.uk-color-deep-orange-light-6 {
+  background-color: #ffcbbb;
+}
+.uk-color-deep-orange-dark-1 {
+  background-color: #ff4408;
+}
+.uk-color-deep-orange-dark-2 {
+  background-color: #ee3900;
+}
+.uk-color-deep-orange-dark-3 {
+  background-color: #d43300;
+}
+.uk-color-deep-orange-dark-4 {
+  background-color: #bb2d00;
+}
+.uk-color-deep-orange-dark-5 {
+  background-color: #a22700;
+}
+.uk-color-deep-orange-dark-6 {
+  background-color: #882100;
+}
+.uk-color-brown {
+  background-color: #795548;
+}
+.uk-color-brown-light-1 {
+  background-color: #896052;
+}
+.uk-color-brown-light-2 {
+  background-color: #996b5b;
+}
+.uk-color-brown-light-3 {
+  background-color: #a57868;
+}
+.uk-color-brown-light-4 {
+  background-color: #af8778;
+}
+.uk-color-brown-light-5 {
+  background-color: #b89588;
+}
+.uk-color-brown-light-6 {
+  background-color: #c2a398;
+}
+.uk-color-brown-dark-1 {
+  background-color: #694a3e;
+}
+.uk-color-brown-dark-2 {
+  background-color: #593f35;
+}
+.uk-color-brown-dark-3 {
+  background-color: #49332b;
+}
+.uk-color-brown-dark-4 {
+  background-color: #392822;
+}
+.uk-color-brown-dark-5 {
+  background-color: #291d18;
+}
+.uk-color-brown-dark-6 {
+  background-color: #19120f;
+}
+.uk-color-blue-grey {
+  background-color: #607d8b;
+}
+.uk-color-blue-grey-light-1 {
+  background-color: #6b8a99;
+}
+.uk-color-blue-grey-light-2 {
+  background-color: #7b96a3;
+}
+.uk-color-blue-grey-light-3 {
+  background-color: #8aa2ae;
+}
+.uk-color-blue-grey-light-4 {
+  background-color: #99aeb8;
+}
+.uk-color-blue-grey-light-5 {
+  background-color: #a8bac3;
+}
+.uk-color-blue-grey-light-6 {
+  background-color: #b7c6cd;
+}
+.uk-color-blue-grey-dark-1 {
+  background-color: #566f7c;
+}
+.uk-color-blue-grey-dark-2 {
+  background-color: #4b626d;
+}
+.uk-color-blue-grey-dark-3 {
+  background-color: #41545e;
+}
+.uk-color-blue-grey-dark-4 {
+  background-color: #36474f;
+}
+.uk-color-blue-grey-dark-5 {
+  background-color: #2c3940;
+}
+.uk-color-blue-grey-dark-6 {
+  background-color: #212c31;
+}
+.uk-color-grey {
+  background-color: #757575;
+}
+.uk-color-grey-light-1 {
+  background-color: #828282;
+}
+.uk-color-grey-light-2 {
+  background-color: #8f8f8f;
+}
+.uk-color-grey-light-3 {
+  background-color: #9b9b9b;
+}
+.uk-color-grey-light-4 {
+  background-color: #a8a8a8;
+}
+.uk-color-grey-light-5 {
+  background-color: #b5b5b5;
+}
+.uk-color-grey-light-6 {
+  background-color: #c2c2c2;
+}
+.uk-color-grey-dark-1 {
+  background-color: #686868;
+}
+.uk-color-grey-dark-2 {
+  background-color: #5b5b5b;
+}
+.uk-color-grey-dark-3 {
+  background-color: #4f4f4f;
+}
+.uk-color-grey-dark-4 {
+  background-color: #424242;
+}
+.uk-color-grey-dark-5 {
+  background-color: #353535;
+}
+.uk-color-grey-dark-6 {
+  background-color: #292929;
+}
 /* ========================================================================
    Component: Align
  ========================================================================== */
@@ -9533,16 +10352,27 @@ td.uk-text-break {
   color: rgba(255, 255, 255, 0.7);
 }
 .uk-light hr,
+.uk-light .uk-hr,
 .uk-section-primary:not(.uk-preserve-color) hr,
+.uk-section-primary:not(.uk-preserve-color) .uk-hr,
 .uk-section-secondary:not(.uk-preserve-color) hr,
+.uk-section-secondary:not(.uk-preserve-color) .uk-hr,
 .uk-tile-primary:not(.uk-preserve-color) hr,
+.uk-tile-primary:not(.uk-preserve-color) .uk-hr,
 .uk-tile-secondary:not(.uk-preserve-color) hr,
+.uk-tile-secondary:not(.uk-preserve-color) .uk-hr,
 .uk-card-primary.uk-card-body hr,
+.uk-card-primary.uk-card-body .uk-hr,
 .uk-card-primary > :not([class*='uk-card-media']) hr,
+.uk-card-primary > :not([class*='uk-card-media']) .uk-hr,
 .uk-card-secondary.uk-card-body hr,
+.uk-card-secondary.uk-card-body .uk-hr,
 .uk-card-secondary > :not([class*='uk-card-media']) hr,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk-hr,
 .uk-overlay-primary hr,
-.uk-offcanvas-bar hr {
+.uk-overlay-primary .uk-hr,
+.uk-offcanvas-bar hr,
+.uk-offcanvas-bar .uk-hr {
   border-top-color: rgba(255, 255, 255, 0.2);
 }
 .uk-light a.uk-link-muted,
