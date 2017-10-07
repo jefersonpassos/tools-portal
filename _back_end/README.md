@@ -8,5 +8,6 @@ $ pip install -r requirements.txt
 
 Start API Rest
 ```
+cd tools
 python manage.py runserver
 ```
