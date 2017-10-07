@@ -20,7 +20,7 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "../libs/uikit/css/uikit.min.css"
+        "../libs/uikit/css/uikit.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",

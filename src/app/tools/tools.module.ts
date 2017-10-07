@@ -12,5 +12,5 @@ import { ToolsComponent } from './tools.component';
   ],
   declarations: [ToolsComponent],
   exports: [ToolsComponent]
-})
+}) 
 export class ToolsModule { }
