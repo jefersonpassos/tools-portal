@@ -1,4 +1,4 @@
-import { Tools } from './tools.model';
+import { Tools } from './tools';
 
 
 export const TOOLS: Tools[] = [

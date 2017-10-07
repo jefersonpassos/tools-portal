@@ -40,3 +40,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+#back-end django
+_back_end/venv/
+_back_end/*/db.sqlite3
+*.pyc
