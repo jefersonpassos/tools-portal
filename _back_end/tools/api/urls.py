@@ -7,7 +7,7 @@ router.register('^', ToolsListView)
 
 helper_patterns = [
     url(r'^tools', include(router.urls)),
-    url(r'^details', ToolsDetails.get)
+    url(r'^details/tools', ToolsDetails.get)
 ]
 
 urlpatterns = helper_patterns

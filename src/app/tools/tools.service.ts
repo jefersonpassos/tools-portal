@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from '../../environments/environment';
 
 import { Tools } from './tools';
 import { TOOLS } from './mock-tools';
@@ -8,7 +9,7 @@ import { TOOLS } from './mock-tools';
 @Injectable()
 export class ToolsService {
 
-  apiUrl = "http://127.0.0.1:8000/api";
+  apiUrl = environment.apiUrl;
 
   constructor(private http:HttpClient) { }
 

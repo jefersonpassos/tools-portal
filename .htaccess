@@ -1,0 +1,18 @@
+
+## configuracao para a pasta raiz do projeto
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteRule ^(.*)$ dist/$1 [L]
+</IfModule>
+
+## configuracao para a pasta dist do projeto
+# <IfModule mod_rewrite.c>
+#     RewriteEngine on
+
+#     # to allow html5 state links
+#     # RewriteRule ^(.*)$ dist/$1 [L]
+#     RewriteCond %{REQUEST_FILENAME} !-f
+#     RewriteCond %{REQUEST_FILENAME} !-d
+#     RewriteRule ^(.*)$ /index.html?/$1 [L]
+    
+# </IfModule>
