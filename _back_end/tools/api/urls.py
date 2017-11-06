@@ -1,12 +1,13 @@
 from django.conf.urls import url, include
-from core.views import ToolsListView
+from core.views import ToolsListView, ToolsDetails
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register('^tools', ToolsListView)
+router.register('^', ToolsListView)
 
 helper_patterns = [
-    url(r'^', include(router.urls))
+    url(r'^tools', include(router.urls)),
+    url(r'^details', ToolsDetails.get)
 ]
 
 urlpatterns = helper_patterns
